@@ -1,0 +1,90 @@
+classDiagram
+    class User {
+        +string id
+        +string email
+        +string name
+        +string hashedPassword
+        +Array~string~ favoriteRestaurants
+        +Date createdAt
+        +register(email, password, name)
+        +login(email, password)
+        +addFavorite(restaurantId)
+        +removeFavorite(restaurantId)
+    }
+
+    class Restaurant {
+        +string id
+        +string name
+        +Location location
+        +string[] cuisineTypes
+        +string[] features
+        +string priceRange
+        +string phoneNumber
+        +string website
+        +BusinessHours[] hours
+        +float averageRating
+        +int reviewCount
+        +Date createdAt
+        +createRestaurant()
+        +updateDetails()
+        +calculateRating()
+    }
+
+    class Review {
+        +string id
+        +string userId
+        +string restaurantId
+        +int rating
+        +string text
+        +string[] photos
+        +int helpfulCount
+        +Date createdAt
+        +createReview()
+        +updateReview()
+        +markHelpful()
+    }
+
+    class Location {
+        +string address
+        +float latitude
+        +float longitude
+        +calculateDistance(lat, lng)
+        +isWithinRadius(lat, lng, radius)
+    }
+
+    class SearchService {
+        +searchRestaurants(query, filters)
+        +searchByLocation(lat, lng, radius)
+        +applyFilters(results, filters)
+        +sortResults(results, sortBy)
+    }
+
+    class RecommendationEngine {
+        +getUserPreferences(userId)
+        +getPersonalizedRecommendations(userId, location)
+        +updateUserPreferences(userId, action)
+    }
+
+    class BusinessHours {
+        +string dayOfWeek
+        +Time openTime
+        +Time closeTime
+        +boolean isClosed
+        +isOpenNow()
+    }
+
+    class AuthService {
+        +validateToken(token)
+        +generateToken(userId)
+        +hashPassword(password)
+        +verifyPassword(password, hash)
+    }
+
+    User "1" -- "*" Review
+    Restaurant "1" -- "*" Review
+    Restaurant "1" -- "1" Location
+    Restaurant "1" -- "*" BusinessHours
+    User "*" -- "*" Restaurant : favorites
+    SearchService -- Restaurant : searches
+    RecommendationEngine -- User : analyzes
+    AuthService -- User : authenticates

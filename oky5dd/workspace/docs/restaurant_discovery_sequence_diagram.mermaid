@@ -1,0 +1,57 @@
+sequenceDiagram
+    participant C as Client
+    participant AG as API Gateway
+    participant Auth as Auth Service
+    participant Cache as Redis Cache
+    participant FS as Foursquare API
+    participant US as User Service
+    participant DB as MongoDB
+
+    %% Search Flow
+    C->>AG: GET /api/places/search?query&ll
+    AG->>Auth: validateToken()
+    Auth-->>AG: token valid
+    AG->>Cache: checkCache(query, location)
+    alt Cache Hit
+        Cache-->>AG: return cached results
+        AG-->>C: return results
+    else Cache Miss
+        AG->>FS: search places
+        FS-->>AG: return places
+        AG->>Cache: store results
+        AG-->>C: return results
+    end
+
+    %% Place Details Flow
+    C->>AG: GET /api/places/{id}
+    AG->>Cache: checkCache(placeId)
+    alt Cache Hit
+        Cache-->>AG: return cached place
+    else Cache Miss
+        AG->>FS: get place details
+        FS-->>AG: return details
+        AG->>Cache: store place details
+    end
+    AG-->>C: return place details
+
+    %% Favorite Place Flow
+    C->>AG: POST /api/users/favorites/{placeId}
+    AG->>Auth: validateToken()
+    Auth-->>AG: token valid
+    AG->>US: addFavorite(userId, placeId)
+    US->>DB: store favorite
+    DB-->>US: confirm stored
+    US-->>AG: success
+    AG-->>C: favorite added
+
+    %% Rate Limit Handling
+    C->>AG: GET /api/places/search (rate limited)
+    AG->>Cache: check rate limit
+    alt Limit Exceeded
+        Cache-->>AG: rate limit exceeded
+        AG-->>C: 429 Too Many Requests
+    else Limit OK
+        AG->>FS: forward request
+        FS-->>AG: return response
+        AG-->>C: return results
+    end

@@ -1,0 +1,56 @@
+{
+  "timestamp": "2025-02-19T16:25:02.959025",
+  "client_id": "4V1P22T2MXSSSQBIZVHZBFJCHH1H33KLISIZ1GD0CWRR3F0A",
+  "user_id": "34510087",
+  "endpoints_tested": [
+    {
+      "name": "User Details",
+      "url": "https://api.foursquare.com/v2/users/34510087",
+      "tests": [
+        {
+          "auth_method": "client_credentials",
+          "status_code": 401,
+          "response": "{\"meta\":{\"code\":401,\"errorType\":\"invalid_auth\",\"errorDetail\":\"Missing oauth_token. See https:\\/\\/developer.foursquare.com\\/docs\\/api\\/configuration\\/authentication for details.\",\"requestId\":\"67b6765fe270131c2b529699\"},\"response\":{}}"
+        },
+        {
+          "auth_method": "oauth",
+          "note": "Requires user authentication via OAuth flow",
+          "auth_url": "https://foursquare.com/oauth2/authenticate?client_id=4V1P22T2MXSSSQBIZVHZBFJCHH1H33KLISIZ1GD0CWRR3F0A&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fcallback"
+        }
+      ]
+    },
+    {
+      "name": "User Checkins",
+      "url": "https://api.foursquare.com/v2/users/34510087/checkins",
+      "tests": [
+        {
+          "auth_method": "client_credentials",
+          "status_code": 401,
+          "response": "{\"meta\":{\"code\":401,\"errorType\":\"invalid_auth\",\"errorDetail\":\"Missing oauth_token. See https:\\/\\/developer.foursquare.com\\/docs\\/api\\/configuration\\/authentication for details.\",\"requestId\":\"67b6765fb7da9e39864269c5\"},\"response\":{}}"
+        },
+        {
+          "auth_method": "oauth",
+          "note": "Requires user authentication via OAuth flow",
+          "auth_url": "https://foursquare.com/oauth2/authenticate?client_id=4V1P22T2MXSSSQBIZVHZBFJCHH1H33KLISIZ1GD0CWRR3F0A&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fcallback"
+        }
+      ]
+    },
+    {
+      "name": "User Visits",
+      "url": "https://api.foursquare.com/v2/users/34510087/visits",
+      "tests": [
+        {
+          "auth_method": "client_credentials",
+          "status_code": 404,
+          "response": "{\"meta\":{\"code\":404,\"errorType\":\"other\",\"errorDetail\":\"Endpoint not found\",\"requestId\":\"67b6765fc222a53243d9623f\"},\"response\":{}}"
+        },
+        {
+          "auth_method": "oauth",
+          "note": "Requires user authentication via OAuth flow",
+          "auth_url": "https://foursquare.com/oauth2/authenticate?client_id=4V1P22T2MXSSSQBIZVHZBFJCHH1H33KLISIZ1GD0CWRR3F0A&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fcallback"
+        }
+      ]
+    }
+  ],
+  "auth_url": "https://foursquare.com/oauth2/authenticate?client_id=4V1P22T2MXSSSQBIZVHZBFJCHH1H33KLISIZ1GD0CWRR3F0A&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fcallback"
+}
