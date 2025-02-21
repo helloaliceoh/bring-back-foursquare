@@ -1,0 +1,13 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[[redirects]]
+  from = "/bring-foursquare-back"
+  to = "/bring-foursquare-back/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/bring-foursquare-back/*"
+  to = "/bring-foursquare-back/index.html"
+  status = 200
